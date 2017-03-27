@@ -1,0 +1,27 @@
+{
+  "name": "telegram_translater",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "es6-promisify": "^5.0.0",
+    "express": "^4.15.2",
+    "node-telegram-bot-api": "^0.27.0",
+    "request": "^2.81.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-core": "^6.24.0",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-stage-2": "^6.22.0"
+  },
+  "scripts": {
+    "start": "node ./lib/server.js",
+    "prestart": "babel src -d lib",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
