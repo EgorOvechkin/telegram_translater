@@ -14,7 +14,13 @@ bot.onText(/\/echo (.+)/, function (msg, match) {
   var chatId = msg.chat.id
   // console.log(msg)
   var resp = match[1] // the captured "whatever"
-  console.log('>>', translate(match[1]))
+  // console.log('>>', translate(match[1]))
+  translate(match[1])
+  .then(response => {
+    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n', JSON.parse(response.body).text, '\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+    bot.sendMessage(chatId, JSON.parse(response.body).text[0])
+  })
+  .catch(err => console.log(err))
   // send back the matched "whatever" to the chat
-  bot.sendMessage(chatId, match[1])
+  // bot.sendMessage(chatId, match[1])
 })
