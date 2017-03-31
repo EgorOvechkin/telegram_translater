@@ -31,3 +31,7 @@ export function detected(text, hint) {
     + `&text=${text}`
     + `&hint=${hint}`)
 }
+
+export function getAdvice() {
+  return request('http://fucking-great-advice.ru/api/random')
+}

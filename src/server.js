@@ -2,6 +2,7 @@ import promisify from 'es6-promisify'
 import TelegramBot from 'node-telegram-bot-api'
 import { translate } from './index.js'
 import { detected } from './index.js'
+import { getAdvice } from './index.js'
 
 const token = '339608802:AAFewFYiBYoWyzmDLSYfToqOcAcda_hoviQ'
 const bot = new TelegramBot(token, { polling: true })
@@ -13,9 +14,9 @@ bot.onText(/\/t(?:@ya_translater_bot)? (.+)/, function (msg, match) {
   // 'match' is the result of executing the regexp above on the text content
   // of the message
 
-  var chatId = msg.chat.id
+  const chatId = msg.chat.id
   // console.log(msg)
-  var resp = match[1] // the captured "whatever"
+  const resp = match[1] // the captured "whatever"
   // console.log('>>', translate(match[1]))
   detected(encodeURIComponent(match[1]), 'ru,en')
   .then(response => {
@@ -33,4 +34,12 @@ bot.onText(/\/t(?:@ya_translater_bot)? (.+)/, function (msg, match) {
 
   // send back the matched "whatever" to the chat
   // bot.sendMessage(chatId, match[1])
+})
+
+bot.onText(/\/fuck(?:@ya_translater_bot)?.*/, function (msg, match) {
+  const chatId = msg.chat.id
+  getAdvice()
+  .then(response => {
+    bot.sendMessage(chatId, JSON.parse(response.body).text)
+  })
 })
