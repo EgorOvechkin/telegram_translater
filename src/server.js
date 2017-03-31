@@ -8,7 +8,7 @@ const bot = new TelegramBot(token, { polling: true })
 // const bot = promisify(bot_cb.onText)
 // Matches "/echo [whatever]"
 // \/echo
-bot.onText(/(.+)/, function (msg, match) {
+bot.onText(/\/t(?:@ya_translater_bot)? (.+)/, function (msg, match) {
   // 'msg' is the received Message from Telegram
   // 'match' is the result of executing the regexp above on the text content
   // of the message
