@@ -33,5 +33,6 @@ export function detected(text, hint) {
 }
 
 export function getAdvice() {
-  return request('http://fucking-great-advice.ru/api/random')
+  console.log('>>>>>', encodeURIComponent('http://fucking-great-advice.ru/api/random_by_tag/кодеру'))
+  return request('http://fucking-great-advice.ru/api/random_by_tag/%D0%BA%D0%BE%D0%B4%D0%B5%D1%80%D1%83')
 }

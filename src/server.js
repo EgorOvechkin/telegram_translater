@@ -40,6 +40,8 @@ bot.onText(/\/fuck(?:@ya_translater_bot)?.*/, function (msg, match) {
   const chatId = msg.chat.id
   getAdvice()
   .then(response => {
-    bot.sendMessage(chatId, JSON.parse(response.body).text)
+    console.log(response.body)
+    bot.sendMessage(chatId, decodeURIComponent(JSON.parse(response.body).text).replace('&nbsp;', ' '))
   })
+  .catch(err => console.log(err))
 })
