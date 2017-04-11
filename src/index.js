@@ -25,8 +25,21 @@ export function getAdvice() {
   return request('http://fucking-great-advice.ru/api/random')
 }
 
-export function sayIt(text) {
-  console.log(text)
-  return get(
-    `https://tts.voicetech.yandex.net/generate?text=Hello&format=mp3&lang=en-US&speaker=oksana&emotion=good&key=689b5e1f-d62e-45dd-9f37-b16c3c587813`)
+export function sayIt(text, lang) {
+  console.log('sayIt: ', text)
+  console.log('sayIt: ', lang)
+  return request_cb
+    .get(
+      `https://tts.voicetech.yandex.net/generate`
+      + `?text=${encodeURIComponent(text)}`
+      + `&format=mp3`
+      + `&lang=${lang}`
+      + `&speaker=ermil`
+      // + `&emotion=good`
+      + `&key=689b5e1f-d62e-45dd-9f37-b16c3c587813`
+    )
+    .on('response', response => {
+      console.log(response.statusCode)
+      console.log(response.headers['content-type'])
+    })
 }

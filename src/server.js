@@ -36,44 +36,25 @@ bot.onText(/\/fuck(?:@ya_translater_bot)?.*/, function (msg, match) {
 })
 
 bot.onText(/\/sayit(?:@ya_translater_bot)?(.*)/, function (msg, match) {
-  console.log(']]]]]]]]]][[[[[[[]]]]]][[[[')
-  const chatId = msg.chat.id
-  // sayIt(match[1])
-  const stream = request
-  .get(`https://tts.voicetech.yandex.net/generate?text=Hello&format=mp3&lang=en-US&speaker=oksana&emotion=good&key=689b5e1f-d62e-45dd-9f37-b16c3c587813`)
-  .on('response', function(response) {
-    console.log(response.statusCode) // 200
-    console.log(response.headers['content-type']) // 'image/png'
+  detected(encodeURIComponent(match[1]), 'ru,en')
+  .then(response => {
+    console.log(JSON.parse(response.body).lang)
+    const detectedLang = JSON.parse(response.body).lang
+    const chatId = msg.chat.id
+
+    const helper = (array, lang) => {
+      let res = array[0]
+      array.forEach(str => {
+        if (str.indexOf(lang) >= 0) {
+          res = str
+        }
+      })
+      return res
+    }
+
+    const speakerLang = helper(['ru-RU', 'en-US', 'uk-UK', 'tr-TR'], detectedLang)
+    const stream = sayIt(match[1], speakerLang)
+    bot.sendAudio(chatId, stream)
   })
-  bot.sendAudio(chatId, stream)
-
-  // .pipe(bot.sendAudio(chatId, 'doodle.png'))
-    // .then(response => console.lo)
-    // .then(response => {
-    //   // console.log('>>>>>>>>>>\n' + JSON.stringify(response) + '\n<<<<<<<<<<<<')
-    //   // const stream = response.pipe()
-    //   // console.log(stream)
-    //   bot.sendAudio(chatId, response.pipe())
-    // })
-    // .catch(err => console.log(err))
-  // console.log
-  // bot.getChat(chatId)
-  // getAdvice()
-  // .then(response => {
-  //   console.log(response.body)
-  //   bot.sendMessage(chatId, decodeURIComponent(JSON.parse(response.body).text).replace('&nbsp;', ' '), { parse_mode: 'HTML' })
-  // })
+  .catch(err => console.log(err))
 })
-
-// bot.onText(/.*/, function (msg, match) {
-//   const chatId = msg.chat.id
-//   console.log('>>>>>>>\n', msg, '\n<<<<<<<<<')
-  // bot.getChat(chatId)
-  //   .then(chat => console.log('>>>>>>>>>>\n' + JSON.stringify(chat) + '\n<<<<<<<<<<<<'))
-  //   .catch(err => console.log(err))
-  // getAdvice()
-  // .then(response => {
-  //   console.log(response.body)
-  //   bot.sendMessage(chatId, decodeURIComponent(JSON.parse(response.body).text).replace('&nbsp;', ' '), { parse_mode: 'HTML' })
-  // })
-// })
