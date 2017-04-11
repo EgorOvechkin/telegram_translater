@@ -13,10 +13,8 @@ bot.onText(/\/t(?:@ya_translater_bot)? (.+)/, function (msg, match) {
   const resp = match[1]
   detected(encodeURIComponent(match[1]), 'ru,en')
   .then(response => {
-    console.log('<><><><><><><>\n', JSON.parse(response.body).lang, '\n<><><>><>><')
     const lang = JSON.parse(response.body).lang
     const dist = lang == 'ru' ? 'en' : 'ru'
-    console.log('dist;    ', dist)
     translate(encodeURIComponent(match[1]), dist)
     .then(response => {
       bot.sendMessage(chatId, JSON.parse(response.body).text[0])
@@ -41,7 +39,8 @@ bot.onText(/\/sayit(?:@ya_translater_bot)?(.*)/, function (msg, match) {
     console.log(JSON.parse(response.body).lang)
     const detectedLang = JSON.parse(response.body).lang
     const chatId = msg.chat.id
-
+    const msgId = msg.message_id
+    console.log(msgId)
     const helper = (array, lang) => {
       let res = array[0]
       array.forEach(str => {
@@ -54,7 +53,7 @@ bot.onText(/\/sayit(?:@ya_translater_bot)?(.*)/, function (msg, match) {
 
     const speakerLang = helper(['ru-RU', 'en-US', 'uk-UK', 'tr-TR'], detectedLang)
     const stream = sayIt(match[1], speakerLang)
-    bot.sendAudio(chatId, stream)
+    bot.sendVoice(chatId, stream, {reply_to_message_id: msgId})
   })
   .catch(err => console.log(err))
 })
